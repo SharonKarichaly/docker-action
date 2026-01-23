@@ -14,3 +14,5 @@ jobs:
         run: ls
       - name: Read file
         run: cat README.md
+      - name: execute shell script
+        run: ./script.sh
