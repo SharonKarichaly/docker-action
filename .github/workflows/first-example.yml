@@ -13,18 +13,18 @@ jobs:
     steps:
       - name: Docker Build
         run: |
-          docker build -t ${{ env.CONTAINER_REGISTRY }}/$DOCKER_USERNAME/$IMAGE_NAME:latest
+          echo docker build -t ${{ env.CONTAINER_REGISTRY }}/$DOCKER_USERNAME/$IMAGE_NAME:latest
 
       - name: Docker Login
         env:
           DOCKER_PASSWORD: Redhat@12345
         run: |
-          docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+          echo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
 
 
       - name: Docker Publish
         run: |
-          docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
+          echo docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
 
 
   deploy:
@@ -33,4 +33,4 @@ jobs:
     steps:
       - name: Docker Run
         run: |
-          docker run -d -p 8080:80 $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
+          echo docker run -d -p 8080:80 $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
