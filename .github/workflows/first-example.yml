@@ -9,9 +9,13 @@ on:
 jobs:
   deploy:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, ubuntu-20.04, windows-latest]      #os unique name
         image: [hello-world, alpine]
+        # exclude:
+        #   - image: alpine
+        #     os: windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Echo Docker Details
