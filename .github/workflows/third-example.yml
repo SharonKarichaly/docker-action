@@ -2,11 +2,9 @@ name: Workflow Filters and Activities
 
 on:
   workflow_dispatch:
-
   push:
     branches:
       - main
-
   pull_request:
     types:
       - opened
@@ -21,4 +19,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show Event
-        run: echo "This workflow ran for event: ${{ github.event_name }}"
+        run: echo 'This workflow ran for event:' ${{ github.event_name }}
