@@ -1,36 +1,21 @@
-name: My First Workflow
-on: workflow_dispatch
+name: Matrix Configuration
 
-env:
-  CONTAINER_REGISTRY: docker.io
-  DOCKER_USERNAME: ksharon
-  IMAGE_NAME: github-actions-nginx
+
+on:
+  push:
+  workflow_dispatch:
 
 
 jobs:
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Docker Build
-        run: |
-          echo docker build -t ${{ env.CONTAINER_REGISTRY }}/$DOCKER_USERNAME/$IMAGE_NAME:latest
-
-      - name: Docker Login
-        env:
-          DOCKER_PASSWORD: Redhat@12345
-        run: |
-          echo docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
-
-
-      - name: Docker Publish
-        run: |
-          echo docker push $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
-
-
   deploy:
-    needs: docker
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-20.04, windows-latest]
+        image: [hello-world, alpine]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Docker Run
-        run: |
-          echo docker run -d -p 8080:80 $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest
+      - name: Echo Docker Details
+        run: docker info
+
+      - name: Run ${{ matrix.image }} on ${{ matrix.os }}
+        run: docker run ${{ matrix.image }}
